@@ -4,6 +4,7 @@ import { useCart } from '../context/CartContext';
 import { useAuth } from '../context/AuthContext';
 import { supabase } from '../services/supabaseClient';
 import toast from 'react-hot-toast';
+import './Checkout.css';
 
 const Checkout = () => {
   const { cartItems, cartTotalPrice, clearCart } = useCart();
@@ -106,13 +107,13 @@ const Checkout = () => {
   };
 
   return (
-    <div style={{ maxWidth: '1000px', margin: '0 auto', padding: '4rem 2rem', minHeight: '60vh' }}>
+    <div className="checkout-container">
       <h1 style={{ marginBottom: '2rem' }}>Finalizar Compra</h1>
       
-      <div style={{ display: 'grid', gridTemplateColumns: 'minmax(0, 2fr) minmax(0, 1fr)', gap: '3rem', alignItems: 'start' }}>
+      <div className="checkout-grid">
         
         {/* Formulario Real */}
-        <form onSubmit={handleCheckout} style={{ backgroundColor: 'var(--color-surface)', padding: '2rem', borderRadius: 'var(--border-radius-md)' }}>
+        <form onSubmit={handleCheckout} className="checkout-form">
           <h3 style={{ marginBottom: '1.5rem', paddingBottom: '0.5rem', borderBottom: '1px solid #eee' }}>1. Datos de Envío</h3>
           
           <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem', marginBottom: '2rem' }}>
@@ -179,7 +180,7 @@ const Checkout = () => {
         </form>
 
         {/* Order Summary */}
-        <div style={{ border: '1px solid var(--color-surface)', padding: '2rem', borderRadius: 'var(--border-radius-md)' }}>
+        <div className="checkout-summary">
           <h3 style={{ marginBottom: '1.5rem' }}>Resumen del Pedido</h3>
           <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem', marginBottom: '1.5rem' }}>
             {cartItems.map(item => (
