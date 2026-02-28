@@ -92,11 +92,11 @@
     justify-content: center;
   }
 
-  /* El logo se desplaza para dejar espacio al botón */
+  /* El logo se alinea libremente con flexbox para evitar que choque con otros iconos en pantallas muy pequeñas */
   .navbar-logo {
-    position: absolute;
-    left: 50%;
-    transform: translateX(-50%);
+    display: flex;
+    justify-content: center;
+    flex: 1;
   }
 
   .navbar-links {
