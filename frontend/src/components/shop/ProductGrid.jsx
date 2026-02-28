@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useSearchParams } from 'react-router-dom';
 import ProductCard from './ProductCard';
 import { supabase } from '../../services/supabaseClient';
 import './ProductGrid.css';
@@ -8,6 +9,8 @@ const ProductGrid = () => {
   const [products, setProducts] = useState([]);
   const [categories, setCategories] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [searchParams] = useSearchParams();
+  const searchQuery = searchParams.get('q') || '';
 
   useEffect(() => {
     const fetchData = async () => {
@@ -33,15 +36,20 @@ const ProductGrid = () => {
     fetchData();
   }, []);
 
-  // Filter products based on selected category
-  const filteredProducts = activeCategory === 'all' 
-    ? products 
-    : products.filter(p => p.category_slug === activeCategory);
+  // Filter products based on selected category AND search query
+  const filteredProducts = products.filter(p => {
+    const matchesCategory = activeCategory === 'all' || p.category_slug === activeCategory;
+    const matchesSearch = searchQuery === '' || 
+      p.name.toLowerCase().includes(searchQuery.toLowerCase()) || 
+      (p.description && p.description.toLowerCase().includes(searchQuery.toLowerCase()));
+      
+    return matchesCategory && matchesSearch;
+  });
 
   return (
     <div className="product-module">
       <div className="module-header">
-        <h2>Nuestra Colección</h2>
+        <h2>{searchQuery ? `Resultados para "${searchQuery}"` : 'Nuestra Colección'}</h2>
         <p>Explora las últimas tendencias en moda diseñadas para ti.</p>
       </div>
       

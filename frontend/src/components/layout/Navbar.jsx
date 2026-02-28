@@ -11,6 +11,8 @@ const Navbar = () => {
   const { user, signOut } = useAuth();
   const navigate = useNavigate();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [isSearchOpen, setIsSearchOpen] = useState(false);
+  const [searchQuery, setSearchQuery] = useState('');
 
   const handleSignOut = async () => {
     await signOut();
@@ -20,6 +22,17 @@ const Navbar = () => {
 
   const closeMobileMenu = () => {
     setIsMobileMenuOpen(false);
+    setIsSearchOpen(false);
+  };
+
+  const handleSearchSubmit = (e) => {
+    e.preventDefault();
+    if (searchQuery.trim()) {
+      navigate(`/shop?q=${encodeURIComponent(searchQuery.trim())}`);
+      setIsSearchOpen(false);
+      setSearchQuery('');
+      closeMobileMenu();
+    }
   };
 
   return (
@@ -49,7 +62,26 @@ const Navbar = () => {
         </ul>
 
         <div className="navbar-actions">
-          <button aria-label="Buscar"><Search size={20} /></button>
+          
+          <div className="search-wrapper" style={{ display: 'flex', alignItems: 'center' }}>
+            <form 
+              onSubmit={handleSearchSubmit} 
+              className={`search-form ${isSearchOpen ? 'open' : ''}`}
+            >
+              <input 
+                type="text" 
+                placeholder="Buscar prenda..." 
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+              />
+            </form>
+            <button 
+              aria-label="Buscar" 
+              onClick={() => setIsSearchOpen(!isSearchOpen)}
+            >
+              {isSearchOpen ? <X size={20} /> : <Search size={20} />}
+            </button>
+          </div>
           
           {user ? (
             <button aria-label="Cerrar sesión" onClick={handleSignOut} title="Cerrar sesión">
