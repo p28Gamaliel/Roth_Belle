@@ -4,6 +4,7 @@ import { Toaster } from 'react-hot-toast';
 import Navbar from './Navbar';
 import Footer from './Footer';
 import CartDrawer from '../cart/CartDrawer';
+import AIAssistant from '../chat/AIAssistant';
 
 const MainLayout = () => {
   return (
@@ -20,6 +21,7 @@ const MainLayout = () => {
       <main className="main-content" style={{ flex: 1 }}>
         <Outlet />
       </main>
+      <AIAssistant />
       <Footer />
     </div>
   );

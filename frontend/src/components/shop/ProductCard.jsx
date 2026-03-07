@@ -1,4 +1,6 @@
 import React from 'react';
+// eslint-disable-next-line no-unused-vars
+import { motion } from 'framer-motion';
 import { ShoppingBag } from 'lucide-react';
 import { useCart } from '../../context/CartContext';
 import toast from 'react-hot-toast';
@@ -15,14 +17,24 @@ const ProductCard = ({ product }) => {
   };
 
   return (
-    <div className="product-card">
+    <motion.div 
+      className="product-card"
+      whileHover={{ y: -8, transition: { duration: 0.3 } }}
+      initial={{ opacity: 0, scale: 0.95 }}
+      whileInView={{ opacity: 1, scale: 1 }}
+      viewport={{ once: true }}
+    >
       <div className="product-image-container">
         <img src={image_url} alt={name} className="product-image" loading="lazy" />
         <div className="product-overlay">
-          <button className="btn-add-cart" onClick={handleAddToCart}>
+          <motion.button 
+            className="btn-add-cart" 
+            onClick={handleAddToCart}
+            whileTap={{ scale: 0.9 }}
+          >
             <ShoppingBag size={18} />
             <span>Añadir al Carrito</span>
-          </button>
+          </motion.button>
         </div>
       </div>
       <div className="product-info">
@@ -30,7 +42,7 @@ const ProductCard = ({ product }) => {
         <h3 className="product-name">{name}</h3>
         <span className="product-price">${price.toFixed(2)}</span>
       </div>
-    </div>
+    </motion.div>
   );
 };
 
